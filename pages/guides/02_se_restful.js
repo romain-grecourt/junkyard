@@ -8,7 +8,7 @@
 <v-card-text>
 <dl>
 <dt slot=title>SE REST Application</dt>
-<dd slot="desc"><p>Create and build a RESTful web application using Helidon SE.</p>
+<dd slot="desc"><p>Create and build a RESTful application using Helidon SE.</p>
 </dd>
 </dl>
 </v-card-text>
@@ -20,7 +20,7 @@
 
 <h2 id="_what_you_will_learn">What you will learn</h2>
 <div class="section">
-<p>You&#8217;ll learn how to use Helidon quickly to create a RESTful web application in
+<p>You&#8217;ll learn how to use Helidon quickly to create a RESTful application in
  three main steps:</p>
 
 <ol style="margin-left: 15px;">
@@ -37,7 +37,7 @@ Add code to record a simple app-specific metric.
 
 </li>
 </ol>
-<p>The finished code for this example is available <a id="" title="" target="_blank" href="https://github.com/oracle/helidon/tree/1.0.0-SNAPSHOT/examples/guides/se-restful-webservice">here</a>.</p>
+<p>The finished code for this example is available <a id="" title="" target="_blank" href="https://github.com/oracle/helidon/tree/1.0.0-SNAPSHOT/examples/guides/se-restful">here</a>.</p>
 
 </div>
 
@@ -74,8 +74,8 @@ title="Run the Maven archetype"
     -DarchetypeArtifactId=helidon-quickstart-se \
     -DarchetypeVersion=1.0.0-SNAPSHOT \
     -DgroupId=io.helidon.guides \
-    -DartifactId=se-restful-webservice \
-    -Dpackage=io.helidon.guides.se.restfulwebservice</markup>
+    -DartifactId=se-restful \
+    -Dpackage=io.helidon.guides.se.restful</markup>
 
 <markup
 lang="bash"
@@ -88,7 +88,7 @@ title="Build the application"
 <markup
 lang="bash"
 title="Run the application"
->java -jar target/se-restful-webservice.jar</markup>
+>java -jar target/se-restful.jar</markup>
 
 <markup
 lang="bash"
@@ -131,8 +131,7 @@ lang="java"
     HealthCheckResponseBuilder builder = HealthCheckResponse.builder()
             .name("greetingAlive"); <span class="conum" data-value="1" />
     if (greeting == null || greeting.trim().length() == 0) { <span class="conum" data-value="2" />
-        builder.down() <span class="conum" data-value="3" />
-               .withData("greeting", "not set or is empty");
+        builder.down().withData("greeting", "not set or is empty"); <span class="conum" data-value="3" />
     } else {
         builder.up(); <span class="conum" data-value="4" />
     }
@@ -141,10 +140,10 @@ lang="java"
 
 <ul class="colist">
 <li data-value="1">The health check name.</li>
-<li data-value="2">Actual condition for the health check, greeting must be non-empty and non-null
+<li data-value="2">The condition for the health check, greeting must be non-empty and non-null
 for the health to succeed.</li>
-<li data-value="3">Describe the failure</li>
-<li data-value="4">Set the result as success</li>
+<li data-value="3">Set the health check status to <code>DOWN</code> and provide a description</li>
+<li data-value="4">Set the health check status to <code>UP</code></li>
 <li data-value="5">Create the health check response object</li>
 </ul>
 <p>Next, edit the <code>createRouting</code> method inside <code>Main.java</code> as follows in order to
@@ -178,8 +177,11 @@ lang="java"
 <markup
 lang="bash"
 
->curl -X GET http://localhost:8080/health | json_pp</markup>
+>curl -X GET http://localhost:8080/health</markup>
 
+<div class="admonition tip">
+<p class="admonition-inline">Pipe the result to <code>python -m json.tool</code> in order to format the JSON output</p>
+</div>
 <p>You should see output similar to the following:</p>
 
 <markup
@@ -245,7 +247,7 @@ title="Set the greeting to a blank."
 <markup
 lang="bash"
 
->curl -X GET http://localhost:8080/health | json_pp</markup>
+>curl -X GET http://localhost:8080/health</markup>
 
 <p>This time you should see these two parts of the output indicating that something
  is wrong:</p>
@@ -281,17 +283,17 @@ lang="bash"
 <markup
 lang="bash"
 
->curl -X GET http://localhost:8080/health | python -m json.tool</markup>
+>curl -X GET http://localhost:8080/health</markup>
 
-<p>This time the <code>outcome</code> and <code>greetingAlive</code> values will be back to <code>UP</code>.</p>
+<p>This time the <code>greetingAlive</code> value will be back to <code>UP</code>.</p>
 
 </div>
 </div>
 
 <h2 id="_add_a_custom_metric">Add a custom metric</h2>
 <div class="section">
-<p>The generated <code>Main</code> class configures some built-in metrics (CPU, threads, memory,
- request traffic). You can use <code>curl</code> to get the metrics data.</p>
+<p>The generated <code>Main</code> class configures some built-in metrics. You can use <code>curl</code>
+ to get the metrics data.</p>
 
 <markup
 lang="bash"
@@ -376,8 +378,9 @@ application received
 
 </li>
 </ol>
-<p>The metric <code>requests_count</code> is higher because the access to <code>/metrics</code> is <em>not</em>
+<div class="admonition note">
+<p class="admonition-inline">The metric <code>requests_count</code> is higher because the access to <code>/metrics</code> is <em>not</em>
  handled by <code>GreetingService</code>.</p>
-
+</div>
 </div>
 </doc-view>

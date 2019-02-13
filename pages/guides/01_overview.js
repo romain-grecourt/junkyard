@@ -8,7 +8,7 @@
 <v-layout row wrap class="pillars">
 <v-flex xs12 sm4 lg3>
 <v-card>
-<router-link to="/guides/02_SE_REST_web-service"><div class="card__link-hover"/>
+<router-link to="/guides/02_se_restful"><div class="card__link-hover"/>
 </router-link>
 <v-card-title primary class="headline layout justify-center">
 <span style="text-align:center">SE REST Web Application</span>
@@ -21,14 +21,14 @@
 </v-flex>
 <v-flex xs12 sm4 lg3>
 <v-card>
-<router-link to="/guides/03_MP_REST_web-service"><div class="card__link-hover"/>
+<router-link to="/guides/03_mp_restful"><div class="card__link-hover"/>
 </router-link>
 <v-card-title primary class="headline layout justify-center">
-<span style="text-align:center">MP REST Web Service</span>
+<span style="text-align:center">MP REST Web Application</span>
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>Use Helidon MP with JAX-RS to create a RESTful web application.</p>
+<p>Use Helidon MP to create a RESTful web application.</p>
 </v-card-text>
 </v-card>
 </v-flex>
@@ -46,7 +46,7 @@
 <v-layout row wrap class="pillars">
 <v-flex xs12 sm4 lg3>
 <v-card>
-<router-link to="/guides/05_Dockerfile"><div class="card__link-hover"/>
+<router-link to="/guides/05_creating_docker_images"><div class="card__link-hover"/>
 </router-link>
 <v-card-title primary class="headline layout justify-center">
 <span style="text-align:center">Create Docker Images</span>
