@@ -7,8 +7,8 @@
 <v-card class="section-def__card">
 <v-card-text>
 <dl>
-<dt slot=title>SE REST Application</dt>
-<dd slot="desc"><p>Create and build a RESTful application using Helidon SE.</p>
+<dt slot=title>MP Web Application</dt>
+<dd slot="desc"><p>Create and build a web application using Helidon MicroProfile and JAX-RS.</p>
 </dd>
 </dl>
 </v-card-text>
@@ -20,12 +20,12 @@
 
 <h2 id="_what_you_will_learn">What you will learn</h2>
 <div class="section">
-<p>You&#8217;ll learn how to use Helidon quickly to create a RESTful application in
- three main steps:</p>
+<p>You&#8217;ll learn how to use Helidon MicroProfile quickly to create a JAX-RS
+ application in three main steps:</p>
 
 <ol style="margin-left: 15px;">
 <li>
-Use the Helidon Maven archetype to create a basic Helidon SE application.
+Write a basic Helidon MP app to respond to the HTTP requests.
 
 </li>
 <li>
@@ -37,7 +37,7 @@ Add code to record a simple app-specific metric.
 
 </li>
 </ol>
-<p>The finished code for this example is available <a id="" title="" target="_blank" href="https://github.com/oracle/helidon/tree/1.0.0-SNAPSHOT/examples/guides/se-restful">here</a>.</p>
+<p>The finished code for this example is available <a id="" title="" target="_blank" href="https://github.com/oracle/helidon/tree/1.0.0-SNAPSHOT/examples/guides/mp-simple">here</a>.</p>
 
 </div>
 
@@ -71,11 +71,11 @@ lang="bash"
 title="Run the Maven archetype"
 >mvn archetype:generate -DinteractiveMode=false \
     -DarchetypeGroupId=io.helidon.archetypes \
-    -DarchetypeArtifactId=helidon-quickstart-se \
+    -DarchetypeArtifactId=helidon-quickstart-mp \
     -DarchetypeVersion=1.0.0-SNAPSHOT \
     -DgroupId=io.helidon.guides \
-    -DartifactId=se-restful \
-    -Dpackage=io.helidon.guides.se.restful</markup>
+    -DartifactId=mp-simple \
+    -Dpackage=io.helidon.guides.mp.simple</markup>
 
 <markup
 lang="bash"
@@ -88,7 +88,7 @@ title="Build the application"
 <markup
 lang="bash"
 title="Run the application"
->java -jar target/se-restful.jar</markup>
+>java -jar target/mp-simple.jar</markup>
 
 <markup
 lang="bash"
@@ -110,67 +110,51 @@ curl -X GET http://localhost:8080/greet/Jose
 
 <h2 id="_add_a_custom_health_check">Add a custom health check</h2>
 <div class="section">
-<p>The generated <code>Main</code> class configures some built-in health checks. You can use
- <code>curl</code> to see the health check indicators.</p>
+<p>MicroProfile provides some health check out-of-the-box. You can use <code>curl</code> to
+ see the health check indicators.</p>
 
 <markup
 lang="bash"
 
 >curl -X GET http://localhost:8080/health</markup>
 
-<p>As a simple illustration of using health checks, this section describes how to
- update the generated code to add a custom health check specific to the
- application.</p>
-
-<p>First edit <code>GreetingService.java</code> and add the following method:</p>
+<p>First create a new class <code>CheckLiveness</code> as follows:</p>
 
 <markup
 lang="java"
 
->HealthCheckResponse checkAlive() {
-    HealthCheckResponseBuilder builder = HealthCheckResponse.builder()
-            .name("greetingAlive"); <span class="conum" data-value="1" />
-    if (greeting == null || greeting.trim().length() == 0) { <span class="conum" data-value="2" />
-        builder.down().withData("greeting", "not set or is empty"); <span class="conum" data-value="3" />
-    } else {
-        builder.up(); <span class="conum" data-value="4" />
+>@ApplicationScoped <span class="conum" data-value="1" />
+@Health <span class="conum" data-value="2" />
+public class CheckLiveness implements HealthCheck { <span class="conum" data-value="3" />
+
+    @Inject <span class="conum" data-value="4" />
+    private GreetingProvider greeting;
+
+    @Override
+    public HealthCheckResponse call() {
+        HealthCheckResponseBuilder builder = HealthCheckResponse.builder()
+                .name("greetingAlive"); <span class="conum" data-value="5" />
+        if (greeting == null || greeting.getMessage().trim().length() == 0) { <span class="conum" data-value="6" />
+            builder.down().withData("greeting", "not set or is empty"); <span class="conum" data-value="7" />
+        } else {
+            builder.up(); <span class="conum" data-value="8" />
+        }
+        return builder.build(); <span class="conum" data-value="9" />
     }
-    return builder.build(); <span class="conum" data-value="5" />
 }</markup>
 
 <ul class="colist">
-<li data-value="1">The health check name.</li>
-<li data-value="2">The condition for the health check, greeting must be non-empty and non-null
+<li data-value="1">Mark the class as <code>@ApplicationScoped</code>; we need only one instance in the
+app.</li>
+<li data-value="2">Identify this as a health resource.</li>
+<li data-value="3">The class must implement <code>HealthCheck</code>.</li>
+<li data-value="4">The field value is injected by <code>CDI</code></li>
+<li data-value="5">Set the health check name.</li>
+<li data-value="6">The condition for the health check, greeting must be non-empty and non-null
 for the health to succeed.</li>
-<li data-value="3">Set the health check status to <code>DOWN</code> and provide a description</li>
-<li data-value="4">Set the health check status to <code>UP</code></li>
-<li data-value="5">Create the health check response object</li>
-</ul>
-<p>Next, edit the <code>createRouting</code> method inside <code>Main.java</code> as follows in order to
- register the new health check:</p>
-
-<markup
-lang="java"
-
->private static Routing createRouting(Config config) {
-
-    MetricsSupport metrics = MetricsSupport.create();
-    GreetService greetService = new GreetService(config);
-    HealthSupport health = HealthSupport.builder()
-            .add(HealthChecks.healthChecks()) <span class="conum" data-value="1" />
-            .add(greetService::checkAlive) <span class="conum" data-value="2" />
-            .build();
-    return Routing.builder()
-            .register(JsonSupport.create())
-            .register(health)
-            .register(metrics)
-            .register("/greet", greetService)
-            .build();
-}</markup>
-
-<ul class="colist">
-<li data-value="1">The built-in health checks.</li>
-<li data-value="2">The <code>health</code> instance now includes the new custom health check.</li>
+<li data-value="7">Set the health check status to <code>DOWN</code> and provide a description.</li>
+<li data-value="8">Set the health check status to <code>UP</code>.</li>
+<li data-value="9">Create the health check response object.</li>
 </ul>
 <p>Rebuild, restart the application and then use <code>curl</code> to test the health check:</p>
 
@@ -234,8 +218,8 @@ lang="json"
 
 <h3 id="_unhealthy_report">Unhealthy report</h3>
 <div class="section">
-<p>Recall that our custom health check condition is that the greeting be non-null and
-non-empty. We can easily force our server to report an unhealthy state.</p>
+<p>Recall that our custom health check condition is that the greeting be non-null
+ and non-empty. We can easily force our server to report an unhealthy state.</p>
 
 <markup
 lang="bash"
@@ -292,63 +276,53 @@ lang="bash"
 
 <h2 id="_add_a_custom_metric">Add a custom metric</h2>
 <div class="section">
-<p>The generated <code>Main</code> class configures some built-in metrics. You can use <code>curl</code>
- to get the metrics data.</p>
+<p>MicroProfile provides some metrics out-of-the-box. You can use <code>curl</code> to get
+ the metrics data.</p>
 
 <markup
 lang="bash"
 
 >curl -X GET http://localhost:8080/metrics</markup>
 
+<div class="admonition note">
+<p class="admonition-inline"><code>/metrics/application</code> filters only the application specific metrics
+ whereas <code>/metrics</code> shows all metrics</p>
+</div>
 <p>As a simple illustration of using metrics, this section describes how to update
  the generated greeting service to count how many times a client sends a request
  to the application.</p>
 
-<p>First edit <code>GreetService.java</code> add these declarations as private fields:</p>
+<p>First, add the following dependency to your <code>pom.xml</code>:</p>
+
+<markup
+lang="xml"
+
+>&lt;dependency&gt;
+    &lt;groupId&gt;io.helidon.microprofile.metrics&lt;/groupId&gt;
+    &lt;artifactId&gt;helidon-microprofile-metrics&lt;/artifactId&gt;
+    &lt;scope&gt;runtime&lt;/scope&gt;
+&lt;/dependency&gt;</markup>
+
+<p>Next, annotate every method in <code>GreetResource.java</code> with the following
+ annotation:</p>
 
 <markup
 lang="java"
 
->private final MetricRegistry registry = RegistryFactory.getRegistryFactory().get()
-        .getRegistry(MetricRegistry.Type.APPLICATION); <span class="conum" data-value="1" />
-private final Counter greetCounter = registry.counter("accessctr"); <span class="conum" data-value="2" /></markup>
+>@Counted(<span class="conum" data-value="1" />
+        name = "accessctr", <span class="conum" data-value="2" />
+        reusable = true,    <span class="conum" data-value="3" />
+        description = "Total greetings accesses",
+        displayName = "Access Counter",
+        monotonic = true,   <span class="conum" data-value="4" />
+        unit = MetricUnits.NONE)</markup>
 
 <ul class="colist">
-<li data-value="1">Refers to the application-scoped metrics registry.</li>
-<li data-value="2">Declares a metric of type <code>counter</code> with name <code>accessctr</code>.</li>
-</ul>
-<p>Next create a request handler to update the counter by adding the following
- method:</p>
-
-<markup
-lang="java"
-
->private void counterFilter(final ServerRequest request,
-                           final ServerResponse response) {
-    greetCounter.inc(); <span class="conum" data-value="1" />
-    request.next(); <span class="conum" data-value="2" />
-}</markup>
-
-<ul class="colist">
-<li data-value="1">Updates the counter metric.</li>
-<li data-value="2">Lets the next handler process the same request.</li>
-</ul>
-<p>Then modify the <code>update</code> method to register the new handler:</p>
-
-<markup
-lang="java"
-
->@Override
-public void update(Routing.Rules rules) {
-    rules
-        .any(this::counterFilter) <span class="conum" data-value="1" />
-        .get("/", this::getDefaultMessageHandler)
-        .get("/{name}", this::getMessageHandler)
-        .put("/greeting/{greeting}", this::updateGreetingHandler);
-}</markup>
-
-<ul class="colist">
-<li data-value="1">Invokes <code>counterFilter</code> for <em>any</em> incoming request.</li>
+<li data-value="1">Marks the method as measured by a <code>Counter</code> metric.</li>
+<li data-value="2">Declares the unique name for this counter among all metrics.</li>
+<li data-value="3">Allows the same counter to accumulate uses of multiple methods.</li>
+<li data-value="4">Indicates that the metrics system should increment the counter on each
+invocation but <em>not</em> decrement it when the method returns.</li>
 </ul>
 <p>Rebuild, restart the application and then use <code>curl</code> to test the new metric:</p>
 
@@ -363,24 +337,14 @@ curl -X GET http://localhost:8080/greet/Jose</markup>
 <markup
 lang="bash"
 title="Retrieve the collected metrics"
->curl -X GET http://localhost:8080/metrics</markup>
+>curl -X GET http://localhost:8080/metrics/application</markup>
 
-<p>You should see a long response. Note two items:</p>
+<p>You should see a response with the following item:
+ <code>io_helidon_guides_mp_simple_greet_resource_accessctr 4</code></p>
 
-<ol style="margin-left: 15px;">
-<li>
-<code>application:accessctr 4</code> is the counter we added to the greeting service
-
-</li>
-<li>
-<code>vendor:requests_count 5</code> is the total number of HTTP requests that the
-application received
-
-</li>
-</ol>
 <div class="admonition note">
-<p class="admonition-inline">The metric <code>requests_count</code> is higher because the access to <code>/metrics</code> is <em>not</em>
- handled by <code>GreetingService</code>.</p>
+<p class="admonition-inline">The name of the counter is automatically qualified with the package and
+ class name of the JAX-RS resource.</p>
 </div>
 </div>
 </doc-view>

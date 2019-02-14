@@ -8,27 +8,29 @@
 <v-layout row wrap class="pillars">
 <v-flex xs12 sm4 lg3>
 <v-card>
-<router-link to="/guides/02_se_restful"><div class="card__link-hover"/>
+<router-link to="/guides/02_se_simple"><div class="card__link-hover"/>
 </router-link>
 <v-card-title primary class="headline layout justify-center">
-<span style="text-align:center">SE REST Web Application</span>
+<span style="text-align:center">SE Web Application</span>
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>Use Helidon SE to create a RESTful web application.</p>
+<p>Use Helidon SE to create a simple web application with a custom health check and
+custom metrics.</p>
 </v-card-text>
 </v-card>
 </v-flex>
 <v-flex xs12 sm4 lg3>
 <v-card>
-<router-link to="/guides/03_mp_restful"><div class="card__link-hover"/>
+<router-link to="/guides/03_mp_simple"><div class="card__link-hover"/>
 </router-link>
 <v-card-title primary class="headline layout justify-center">
-<span style="text-align:center">MP REST Web Application</span>
+<span style="text-align:center">MP Web Application</span>
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>Use Helidon MP to create a RESTful web application.</p>
+<p>Use Helidon MP to create a simple web application with a custom health check and
+custom metrics.</p>
 </v-card-text>
 </v-card>
 </v-flex>

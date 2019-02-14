@@ -530,28 +530,28 @@ function createRoutes(){
             component: loadPage('guides-01_overview', '/guides/01_overview', {})
         },
         {
-            path: '/guides/02_se_restful',
+            path: '/guides/02_se_simple',
             meta: {
-                h1: 'SE REST Application',
-                title: 'SE REST Application',
-                description: 'Helidon guide restful se web application',
+                h1: 'SE Web Application',
+                title: 'SE Web Application',
+                description: 'Helidon guide se simple web application',
                 keywords: 'helidon, guide, rest, example',
                 customLayout: null,
                 hasNav: true
             },
-            component: loadPage('guides-02_se_restful', '/guides/02_se_restful', {})
+            component: loadPage('guides-02_se_simple', '/guides/02_se_simple', {})
         },
         {
-            path: '/guides/03_mp_restful',
+            path: '/guides/03_mp_simple',
             meta: {
-                h1: 'MP REST Application',
-                title: 'MP REST Application',
-                description: 'Helidon guide restful mp web application',
+                h1: 'MP Web Application',
+                title: 'MP Web Application',
+                description: 'Helidon guide mp simple web application',
                 keywords: 'helidon, guide, rest, example, microprofile',
                 customLayout: null,
                 hasNav: true
             },
-            component: loadPage('guides-03_mp_restful', '/guides/03_mp_restful', {})
+            component: loadPage('guides-03_mp_simple', '/guides/03_mp_simple', {})
         },
         {
             path: '/guides/05_creating_docker_images',
@@ -694,8 +694,8 @@ function createNav(){
             group: '/guides',
             items: [
                 { href: '/guides/01_overview', title: 'Guides Overview' },
-                { href: '/guides/02_se_restful', title: 'SE REST Application' },
-                { href: '/guides/03_mp_restful', title: 'MP REST Application' },
+                { href: '/guides/02_se_simple', title: 'SE Web Application' },
+                { href: '/guides/03_mp_simple', title: 'MP Web Application' },
                 { href: '/guides/05_creating_docker_images', title: 'Creating Docker Images' }
             ]
         },
