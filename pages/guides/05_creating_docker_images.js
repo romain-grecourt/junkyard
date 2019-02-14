@@ -107,7 +107,7 @@ dependencies only when changed.</p>
  following:</p>
 
 <markup
-lang="bash"
+lang="yaml"
 
 >FROM openjdk:8-jre-slim <span class="conum" data-value="1" />
 
@@ -133,7 +133,7 @@ CMD ["java", "-jar", "/app/${project.artifactId}.jar"] <span class="conum" data-
 <div class="admonition note">
 <p class="admonition-textlabel">What is ${project.artifactId}?</p>
 <p ><p>It&#8217;s a Maven property. The file above is processed during the Maven build, a new
- file is created under the target directory and the property value expanded.</p>
+ file is created under the target directory and the property value is expanded.</p>
 </p>
 </div>
 <markup
@@ -160,7 +160,8 @@ title="Ping the application"
 
 <h2 id="_creating_a_docker_image_with_a_custom_jre">Creating a Docker Image with a Custom JRE</h2>
 <div class="section">
-<p>This section described how to a custom Java 11 JRE using <code>jlink</code>.</p>
+<p>This section describes how to build an image with a custom Java 11 JRE using
+ <code>jlink</code>.</p>
 
 <p>Replace <code>src/main/docker/Dockerfile</code> with the following:</p>
 
@@ -198,9 +199,9 @@ CMD ["java", "-jar", "/app/${project.artifactId}.jar"]</markup>
 <li data-value="3">The modules listed in this example are for Helidon SE. See below for
 Helidon MP.</li>
 <li data-value="4">This is a work-around for <a id="" title="" target="_blank" href="https://github.com/docker-library/openjdk/issues/217">https://github.com/docker-library/openjdk/issues/217</a>.</li>
-<li data-value="5">The final stage that creates the for our application.</li>
-<li data-value="6">Use <code>debian:sid-slim</code> to match the base of <code>openjdk:11-slim</code></li>
-<li data-value="7">Copy the JRE from the first image <code>myjre</code></li>
+<li data-value="5">The final stage that creates the image for our application.</li>
+<li data-value="6">Use <code>debian:sid-slim</code> to match the base image of <code>openjdk:11-slim</code></li>
+<li data-value="7">Copy the JRE from the image of the first stage <code>myjre</code></li>
 </ul>
 <markup
 lang="bash"
@@ -270,9 +271,11 @@ lang="yaml"
 <p>The example below shows how to build an image and register it in the local
  registry using the <code>jib-maven-plugin</code>.</p>
 
+<p>Add the following plugin declaration to your pom.xml:</p>
+
 <markup
 lang="xml"
-title="pom.xml"
+
 >&lt;plugin&gt;
     &lt;groupId&gt;com.google.cloud.tools&lt;/groupId&gt;
     &lt;artifactId&gt;jib-maven-plugin&lt;/artifactId&gt;
