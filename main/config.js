@@ -1,6 +1,6 @@
 function createConfig() {
     return {
-        home: "about/01_introduction",
+        home: "about/01_overview",
         release: "1.0.0-SNAPSHOT",
         releases: [
             "1.0.0-SNAPSHOT"
@@ -26,7 +26,19 @@ function createConfig() {
 function createRoutes(){
     return [
         {
-            path: '/about/01_introduction',
+            path: '/about/01_overview',
+            meta: {
+                h1: 'Overview',
+                title: 'Overview',
+                description: 'Helidon documentation',
+                keywords: 'helidon, java, microservices, microprofile, documentation',
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('about-01_overview', '/about/01_overview', {})
+        },
+        {
+            path: '/about/02_introduction',
             meta: {
                 h1: 'Introduction',
                 title: 'Introduction',
@@ -35,7 +47,7 @@ function createRoutes(){
                 customLayout: null,
                 hasNav: true
             },
-            component: loadPage('about-01_introduction', '/about/01_introduction', {})
+            component: loadPage('about-02_introduction', '/about/02_introduction', {})
         },
         {
             path: '/getting-started/01_prerequisites',
@@ -482,7 +494,7 @@ function createRoutes(){
             component: loadPage('metrics-02_prometheus', '/metrics/02_prometheus', {})
         },
         {
-            path: '/tracing/01_Tracing',
+            path: '/tracing/01_tracing',
             meta: {
                 h1: 'Tracing',
                 title: 'Tracing',
@@ -491,10 +503,10 @@ function createRoutes(){
                 customLayout: null,
                 hasNav: true
             },
-            component: loadPage('tracing-01_Tracing', '/tracing/01_Tracing', {})
+            component: loadPage('tracing-01_tracing', '/tracing/01_tracing', {})
         },
         {
-            path: '/tracing/02_Zipkin',
+            path: '/tracing/02_zipkin',
             meta: {
                 h1: 'Zipkin Tracing',
                 title: 'Zipkin Tracing',
@@ -503,7 +515,7 @@ function createRoutes(){
                 customLayout: null,
                 hasNav: true
             },
-            component: loadPage('tracing-02_Zipkin', '/tracing/02_Zipkin', {})
+            component: loadPage('tracing-02_zipkin', '/tracing/02_zipkin', {})
         },
         {
             path: '/health/01_health',
@@ -566,7 +578,7 @@ function createRoutes(){
             component: loadPage('guides-05_creating_docker_images', '/guides/05_creating_docker_images', {})
         },
         {
-            path: '/', redirect: '/about/01_introduction'
+            path: '/', redirect: '/about/01_overview'
         },
         {
             path: '*', redirect: '/'
@@ -582,7 +594,8 @@ function createNav(){
             action: 'weekend',
             group: '/about',
             items: [
-                { href: '/about/01_introduction', title: 'Introduction' }
+                { href: '/about/01_overview', title: 'Overview' },
+                { href: '/about/02_introduction', title: 'Introduction' }
             ]
         },
         {
@@ -676,8 +689,8 @@ function createNav(){
             action: 'timeline',
             group: '/tracing',
             items: [
-                { href: '/tracing/01_Tracing', title: 'Tracing' },
-                { href: '/tracing/02_Zipkin', title: 'Zipkin Tracing' }
+                { href: '/tracing/01_tracing', title: 'Tracing' },
+                { href: '/tracing/02_zipkin', title: 'Zipkin Tracing' }
             ]
         },
         {

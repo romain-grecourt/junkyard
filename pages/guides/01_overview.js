@@ -15,8 +15,8 @@
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>Use Helidon SE to create a simple web application with a custom health check and
-custom metrics.</p>
+<p>Use Helidon SE to create a simple REST web application with a custom health
+check and custom metrics.</p>
 </v-card-text>
 </v-card>
 </v-flex>
@@ -29,8 +29,8 @@ custom metrics.</p>
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>Use Helidon MP to create a simple web application with a custom health check and
-custom metrics.</p>
+<p>Use Helidon MP to create a simple REST web application with a custom health
+check and custom metrics.</p>
 </v-card-text>
 </v-card>
 </v-flex>
@@ -55,7 +55,8 @@ custom metrics.</p>
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>Package your application and the necessary runtime dependencies as a Docker image that also contains the Java runtime.</p>
+<p>Package your application and the necessary runtime dependencies as a Docker
+image that also contains the Java runtime.</p>
 </v-card-text>
 </v-card>
 </v-flex>

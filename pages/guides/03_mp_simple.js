@@ -80,7 +80,7 @@ title="Run the Maven archetype"
 <markup
 lang="bash"
 title="Build the application"
->mvn package</markup>
+>cd mp-simple ; mvn package</markup>
 
 
 <h3 id="_exercise_the_generated_code">Exercise the generated code</h3>
@@ -151,7 +151,7 @@ app.</li>
 <li data-value="4">The field value is injected by <code>CDI</code></li>
 <li data-value="5">Set the health check name.</li>
 <li data-value="6">The condition for the health check, greeting must be non-empty and non-null
-for the health to succeed.</li>
+for the check to succeed.</li>
 <li data-value="7">Set the health check status to <code>DOWN</code> and provide a description.</li>
 <li data-value="8">Set the health check status to <code>UP</code>.</li>
 <li data-value="9">Create the health check response object.</li>
