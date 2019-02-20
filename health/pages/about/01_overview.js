@@ -23,7 +23,7 @@
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>Quickly create your first application under 2 minutes.</p>
+<p>Quickly create your first application, in under 2 minutes.</p>
 </v-card-text>
 </v-card>
 </v-flex>
@@ -44,7 +44,7 @@
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>Hands-on guides.</p>
+<p>Follow step-by-step guides to build your applications.</p>
 </v-card-text>
 </v-card>
 </v-flex>
@@ -137,11 +137,11 @@ formats.</p>
 <v-divider class="indigo lighten-4"/>
 </div>
 <v-card-title primary class="headline layout justify-center">
-<span style="text-align:center">Microprofile</span>
+<span style="text-align:center">MicroProfile</span>
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>MicroProfile is a platform definition that is familiar to Java EE developers.</p>
+<p>A platform definition that is familiar to enterprise Java developers.</p>
 </v-card-text>
 </v-card>
 </v-flex>
@@ -162,7 +162,7 @@ formats.</p>
 </v-card-title>
 <v-card-text class="caption">
 <p></p>
-<p>A set of add-ons for your Helidon based applications.</p>
+<p>A set of add-ons for your Helidon-based applications.</p>
 </v-card-text>
 </v-card>
 </v-flex>

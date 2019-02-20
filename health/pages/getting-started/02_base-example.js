@@ -52,7 +52,7 @@ title="Helidon SE Example"
 >mvn archetype:generate -DinteractiveMode=false \
     -DarchetypeGroupId=io.helidon.archetypes \
     -DarchetypeArtifactId=helidon-quickstart-se \
-    -DarchetypeVersion=1.0.0-SNAPSHOT \
+    -DarchetypeVersion=1.0.1-SNAPSHOT \
     -DgroupId=io.helidon.examples \
     -DartifactId=quickstart-se \
     -Dpackage=io.helidon.examples.quickstart.se</markup>
@@ -63,7 +63,7 @@ title="Helidon MP Example"
 >mvn archetype:generate -DinteractiveMode=false \
     -DarchetypeGroupId=io.helidon.archetypes \
     -DarchetypeArtifactId=helidon-quickstart-mp \
-    -DarchetypeVersion=1.0.0-SNAPSHOT \
+    -DarchetypeVersion=1.0.1-SNAPSHOT \
     -DgroupId=io.helidon.examples \
     -DartifactId=quickstart-mp \
     -Dpackage=io.helidon.examples.quickstart.mp</markup>
@@ -132,8 +132,7 @@ For example:</p>
 curl -X GET http://localhost:8080/greet/Joe
 {"message":"Hello Joe!"}
 
-curl -X PUT http://localhost:8080/greet/greeting/Hola
-{"greeting":"Hola"}
+curl -X PUT -H "Content-Type: application/json" -d '{"greeting" : "Hola"}' http://localhost:8080/greet/greeting
 
 curl -X GET http://localhost:8080/greet/Jose
 {"message":"Hola Jose!"}</markup>

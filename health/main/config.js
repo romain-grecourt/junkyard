@@ -1,9 +1,9 @@
 function createConfig() {
     return {
         home: "about/01_overview",
-        release: "1.0.0-SNAPSHOT",
+        release: "1.0.1-SNAPSHOT",
         releases: [
-            "1.0.0-SNAPSHOT"
+            "1.0.1-SNAPSHOT"
         ],
         pathColors: {
             "*": "blue-grey"
@@ -530,6 +530,18 @@ function createRoutes(){
             component: loadPage('health-01_health', '/health/01_health', {})
         },
         {
+            path: '/health/02_kubernetes_probes',
+            meta: {
+                h1: 'Kubernetes Probes',
+                title: 'Kubernetes Probes',
+                description: 'Kubernetes probes',
+                keywords: 'helidon, readiness, liveliness, probes, kubernetes',
+                customLayout: null,
+                hasNav: true
+            },
+            component: loadPage('health-02_kubernetes_probes', '/health/02_kubernetes_probes', {})
+        },
+        {
             path: '/guides/01_overview',
             meta: {
                 h1: 'Guides Overview',
@@ -542,31 +554,31 @@ function createRoutes(){
             component: loadPage('guides-01_overview', '/guides/01_overview', {})
         },
         {
-            path: '/guides/02_se_simple',
+            path: '/guides/02_SE_REST_web-service',
             meta: {
-                h1: 'SE Web Application',
-                title: 'SE Web Application',
-                description: 'Helidon guide se simple web application',
-                keywords: 'helidon, guide, rest, example',
+                h1: 'SE REST Web Service',
+                title: 'SE REST Web Service',
+                description: 'Helidon guide restful web service',
+                keywords: 'helidon, guide, rest, web, service, example',
                 customLayout: null,
                 hasNav: true
             },
-            component: loadPage('guides-02_se_simple', '/guides/02_se_simple', {})
+            component: loadPage('guides-02_SE_REST_web-service', '/guides/02_SE_REST_web-service', {})
         },
         {
-            path: '/guides/03_mp_simple',
+            path: '/guides/03_MP_REST_web-service',
             meta: {
-                h1: 'MP Web Application',
-                title: 'MP Web Application',
-                description: 'Helidon guide mp simple web application',
-                keywords: 'helidon, guide, rest, example, microprofile',
+                h1: 'MP REST Web Service',
+                title: 'MP REST Web Service',
+                description: 'Helidon guide restful web service MP',
+                keywords: 'helidon, guide, rest, web, service, example, MP',
                 customLayout: null,
                 hasNav: true
             },
-            component: loadPage('guides-03_mp_simple', '/guides/03_mp_simple', {})
+            component: loadPage('guides-03_MP_REST_web-service', '/guides/03_MP_REST_web-service', {})
         },
         {
-            path: '/guides/05_creating_docker_images',
+            path: '/guides/05_Dockerfile',
             meta: {
                 h1: 'Creating Docker Images',
                 title: 'Creating Docker Images',
@@ -575,7 +587,7 @@ function createRoutes(){
                 customLayout: null,
                 hasNav: true
             },
-            component: loadPage('guides-05_creating_docker_images', '/guides/05_creating_docker_images', {})
+            component: loadPage('guides-05_Dockerfile', '/guides/05_Dockerfile', {})
         },
         {
             path: '/', redirect: '/about/01_overview'
@@ -698,7 +710,8 @@ function createNav(){
             action: 'favorite_outline',
             group: '/health',
             items: [
-                { href: '/health/01_health', title: 'Health Checks' }
+                { href: '/health/01_health', title: 'Health Checks' },
+                { href: '/health/02_kubernetes_probes', title: 'Kubernetes Probes' }
             ]
         },
         {
@@ -707,9 +720,9 @@ function createNav(){
             group: '/guides',
             items: [
                 { href: '/guides/01_overview', title: 'Guides Overview' },
-                { href: '/guides/02_se_simple', title: 'SE Web Application' },
-                { href: '/guides/03_mp_simple', title: 'MP Web Application' },
-                { href: '/guides/05_creating_docker_images', title: 'Creating Docker Images' }
+                { href: '/guides/02_SE_REST_web-service', title: 'SE REST Web Service' },
+                { href: '/guides/03_MP_REST_web-service', title: 'MP REST Web Service' },
+                { href: '/guides/05_Dockerfile', title: 'Creating Docker Images' }
             ]
         },
         {

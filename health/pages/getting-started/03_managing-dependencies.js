@@ -34,7 +34,7 @@ title="Import the Helidon BOM"
         &lt;dependency&gt;
             &lt;groupId&gt;io.helidon&lt;/groupId&gt;
             &lt;artifactId&gt;helidon-bom&lt;/artifactId&gt;
-            &lt;version&gt;1.0.0-SNAPSHOT&lt;/version&gt;
+            &lt;version&gt;1.0.1-SNAPSHOT&lt;/version&gt;
             &lt;type&gt;pom&lt;/type&gt;
             &lt;scope&gt;import&lt;/scope&gt;
         &lt;/dependency&gt;
