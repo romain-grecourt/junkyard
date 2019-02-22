@@ -530,16 +530,16 @@ function createRoutes(){
             component: loadPage('health-01_health', '/health/01_health', {})
         },
         {
-            path: '/health/02_kubernetes_probes',
+            path: '/health/02_health_in_k8s',
             meta: {
-                h1: 'Kubernetes Probes',
-                title: 'Kubernetes Probes',
+                h1: 'Kubernetes probes',
+                title: 'Kubernetes probes',
                 description: 'Kubernetes probes',
                 keywords: 'helidon, readiness, liveliness, probes, kubernetes',
                 customLayout: null,
                 hasNav: true
             },
-            component: loadPage('health-02_kubernetes_probes', '/health/02_kubernetes_probes', {})
+            component: loadPage('health-02_health_in_k8s', '/health/02_health_in_k8s', {})
         },
         {
             path: '/guides/01_overview',
@@ -711,7 +711,7 @@ function createNav(){
             group: '/health',
             items: [
                 { href: '/health/01_health', title: 'Health Checks' },
-                { href: '/health/02_kubernetes_probes', title: 'Kubernetes Probes' }
+                { href: '/health/02_health_in_k8s', title: 'Kubernetes probes' }
             ]
         },
         {

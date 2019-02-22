@@ -23,15 +23,11 @@
 <p>It&#8217;s a good practice to monitor your microservice&#8217;s health in order to ensure
  it is available and performs correctly.</p>
 
-<p>Health checks work with your application exposing health statuses and a
- tool that collects those statuses at regular intervals. Such tool is usually
- the deployment orchestrator (e.g. Kubernetes), it analyses the collected
- statuses and takes action accordingly.</p>
+<p>Applications implement health checks to expose health status that is collected
+ at regular intervals by external tooling such as orchestrators like Kubernetes.
+ The orchestrator may then take action, such as restarting your application if
+ the health check fails.</p>
 
-<div class="admonition note">
-<p class="admonition-inline">Network traffic can be routed to new instances of your application based
- on health check statuses.</p>
-</div>
 <p>A typical health check combines the statuses of all the dependencies that
  impact availability and the ability to perform correctly:</p>
 
@@ -53,9 +49,27 @@
 
 </li>
 </ul>
-<div class="admonition tip">
-<p class="admonition-inline">Balance the amount of collected information to avoid overloading the
- application and impacting users.</p>
+
+<h3 id="_prerequisites">Prerequisites</h3>
+<div class="section">
+<p>Declare the following dependency in your project:</p>
+
+<markup
+lang="xml"
+
+>&lt;dependency&gt;
+    &lt;groupId&gt;io.helidon.health&lt;/groupId&gt;
+    &lt;artifactId&gt;helidon-health&lt;/artifactId&gt;
+&lt;/dependency&gt;</markup>
+
+<markup
+lang="xml"
+title="Optional dependency to use built-in health checks"
+>&lt;dependency&gt;
+    &lt;groupId&gt;io.helidon.health&lt;/groupId&gt;
+    &lt;artifactId&gt;helidon-health-checks&lt;/artifactId&gt;
+&lt;/dependency&gt;</markup>
+
 </div>
 </div>
 
@@ -73,7 +87,7 @@
 <tbody>
 <tr>
 <td><code>org.eclipse.microprofile.health.HealthCheck</code></td>
-<td>Java functional interface representing the logic for a single health check</td>
+<td>Java functional interface representing the logic of a single health check</td>
 </tr>
 <tr>
 <td><code>org.eclipse.microprofile.health.HealthCheckResponse</code></td>
@@ -95,10 +109,10 @@
 </tbody>
 </table>
 </div>
-<p>A health check is a Java functional interface that that returns a
+<p>A health check is a Java functional interface that returns a
  <code>HealthCheckResponse</code> object. You can choose to implement a health check
  inline with a lambda expression or you can reference a method with the double
- colon operator (<code>::</code>).</p>
+ colon operator <code>::</code>.</p>
 
 <markup
 lang="java"
@@ -119,9 +133,10 @@ title="Health check with method reference"
 }
 HealthCheck hc = this::exampleHealthCheck;</markup>
 
-<p><code>HealthSupport</code> is a WebServer service that contains a registry of health check.
- When queried, it invokes the registered health check and returns a response
- with a status code representing the overall state of the application.</p>
+<p><code>HealthSupport</code> is a WebServer service that contains a collection of
+ registered <code>HealthCheck</code> instances. When queried, it invokes the registered
+ health check and returns a response with a status code representing the overall
+ state of the application.</p>
 
 <div class="block-title"><span>Health status codes</span></div>
 <div class="table__overflow elevation-1 flex sm7
@@ -155,7 +170,7 @@ HealthCheck hc = this::exampleHealthCheck;</markup>
 <markup
 lang="java"
 title="Create the health support service"
->HealthSupport health = HealthSuport.builder()
+>HealthSupport health = HealthSupport.builder()
     .add(this::exampleHealthCheck)
     .build();</markup>
 
@@ -164,29 +179,12 @@ title="Create the health support service"
  below.</p>
 </div>
 
-<h3 id="_prerequisites">Prerequisites</h3>
-<div class="section">
-<p>Declare the following dependency in your project:</p>
-
-<markup
-lang="xml"
-
->&lt;dependency&gt;
-    &lt;groupId&gt;io.helidon.health&lt;/groupId&gt;
-    &lt;artifactId&gt;helidon-health&lt;/artifactId&gt;
-&lt;/dependency&gt;</markup>
-
-</div>
-
 <h3 id="_example">Example</h3>
 <div class="section">
-<p>The following example registers a health check that is always <code>UP</code> with a
- description that contains the current time in milliseconds.</p>
-
 <markup
 lang="java"
-
->HealthSupport health = HealthSuport.builder()
+title="Register a custom health check"
+>HealthSupport health = HealthSupport.builder()
     .add(() -&gt; HealthCheckResponse.named("exampleHealthCheck")
                  .up()
                  .withData("time", System.currentTimeMillis())
@@ -204,11 +202,13 @@ Routing.builder()
 <li data-value="3">Register health support with web server routing (adds the <code>/health</code>
 endpoint)</li>
 </ul>
-<p>A request to <code>/health</code> produces the following JSON response body:</p>
-
+<div class="admonition tip">
+<p class="admonition-inline">Remember to balance the amount of collected information in order to avoid
+ overloading the application and impacting users.</p>
+</div>
 <markup
 lang="json"
-
+title="JSON response"
 >{
     "outcome": "UP",
     "checks": [
@@ -243,22 +243,10 @@ lang="json"
 
 </li>
 </ul>
-<p>To enable the built-in health checks, add the following dependency:</p>
-
-<markup
-lang="xml"
-
->    &lt;dependency&gt;
-        &lt;groupId&gt;io.helidon.health&lt;/groupId&gt;
-        &lt;artifactId&gt;helidon-health-checks&lt;/artifactId&gt;
-    &lt;/dependency&gt;</markup>
-
-<p>The following example registers the built-in health checks.</p>
-
 <markup
 lang="java"
-
->HealthSupport health = HealthSuport.builder()
+title="Register built-in health-checks"
+>HealthSupport health = HealthSupport.builder()
     .add(HealthChecks.healthChecks()) <span class="conum" data-value="1" />
     .build();
 
@@ -269,15 +257,13 @@ Routing.builder()
 
 <ul class="colist">
 <li data-value="1">Add built-in health checks (requires the <code>helidon-health-checks</code> dependency)</li>
-<li data-value="2">Enable support for <code>JSON</code></li>
-<li data-value="3">Register health support with web server routing (adds the <code>/health</code>
-endpoint)</li>
+<li data-value="2">Register the <code>JSON-P</code> support in the WebServer routing</li>
+<li data-value="3">Register the created health support with web server routing (adds the
+<code>/health</code> endpoint)</li>
 </ul>
-<p>A request to <code>/health</code> produces the following JSON response body:</p>
-
 <markup
 lang="json"
-
+title="JSON response"
 >{
     "outcome": "UP",
     "checks": [
